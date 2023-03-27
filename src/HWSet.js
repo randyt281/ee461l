@@ -7,8 +7,8 @@ function HWSet (props) {
 
     return ( 
     <span>
-        <p className="hw-set">HWSet1: {hwSet1.availability}/{hwSet1.capacity}</p>
-        <p className="hw-set">HWSet2: {hwSet2.availability}/{hwSet2.capacity}</p>
+        <p className="hw-set">HWSet1: {hwSet1.Availability}/{hwSet1.Capacity}</p>
+        <p className="hw-set">HWSet2: {hwSet2.Availability}/{hwSet2.Capacity}</p>
     </span>
     );
   

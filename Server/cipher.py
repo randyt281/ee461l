@@ -58,30 +58,3 @@ def decrypt(inputText, N, D):
     return out
 
 
-def decryptDatabase():
-    data = open("database.txt", "r")
-    out = ""
-    N = 3
-    D = 1
-    for line in data:
-        line = line.rstrip("\n")
-        login = line.split(" ")
-        user = decrypt(login[0], N, D)
-        password = decrypt(login[1], N, D)
-        out = out + user + " " + password + "\n"
-        #1:
-        #asamant Temp123 exists
-        #skharel Life15$ exists
-
-        #2:
-        #aissa has the wrong password (Light%^&)
-        #bjha has the wrong password (%72Hello)
-        #asament
-        #skharel
-        #Ally exists but not Ally!
-
-        #3
-        #Ally! does not meet the username requirements
-    return out
-
-

@@ -31,11 +31,51 @@ def userExists(userid):
 def checkPassword(userid, password):
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
     db = client['Users']
-    collection = db['userid']
-    if cipher.decrypt(collection["password"], 3, 1) == password:
+    collection = db[userid]
+    document = collection.find_one()
+    if cipher.encrypt(password, 3, 1) == document["password"]:
         client.close()
         return True
     client.close()
     return False
+
+def queryProjects():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    projectList = db.list_collections
+    client.close()
+    return projectList
+    
+def queryHWSet1Availability():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['HardwareSet']
+    collection = db['HWSet1']
+    document = collection.find_one()
+    client.close()
+    return document["Availability"]
+
+def queryHWSet2Availability():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['HardwareSet']
+    collection = db['HWSet2']
+    document = collection.find_one()
+    client.close()
+    return document["Availability"]
+
+def queryHWSet1Capacity():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['HardwareSet']
+    collection = db['HWSet1']
+    document = collection.find_one()
+    client.close()
+    return document["Capacity"]
+
+def queryHWSet2Capacity():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['HardwareSet']
+    collection = db['HWSet2']
+    document = collection.find_one()
+    client.close()
+    return document["Capacity"]
 
     

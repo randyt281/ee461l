@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import {Button} from "@mui/material";
 import JoinButton from "./JoinButton";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function Project (props){
     const pName = props.projectName;
@@ -31,11 +32,28 @@ function Project (props){
         
     };
 
-    const[checkInData, setCheckInData] = useState({
-        projectId: 0,
-        qty: 0
-    })
+    const [HWSet1Data, setHWSet1Data] = useState({"Capacity":"0", "Availability":"0"});
+    const [HWSet2Data, setHWSet2Data] = useState({"Capacity":"0", "Availability":"0"});
 
+
+    useEffect(() => {
+        // Using fetch to fetch the api from 
+        // flask server it will be redirected to proxy
+        fetch("/hardware").then((res) =>
+            res.json().then((data) => {
+                // Setting a data from api
+                setHWSet1Data({
+                    Capacity:data.HWSet1.Capacity,
+                    Availability:data.HWSet1.Availability
+                })
+                setHWSet2Data({
+                    Capacity:data.HWSet2.Capacity,
+                    Availability:data.HWSet2.Availability
+                })
+
+            })
+        );
+    }, []);
 
 
     return (
@@ -56,7 +74,7 @@ function Project (props){
                     <ListOfUsers listOfUsers={listUsers}/>    
                 </Grid>
                 <Grid item xs="auto">
-                    <HWSet hwSet1={hw1} hwSet2={hw2}/>
+                    <HWSet hwSet1={HWSet1Data} hwSet2={HWSet2Data}/>
                 </Grid>
                 <Grid item xs="auto">
                     <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}}/> <br/>

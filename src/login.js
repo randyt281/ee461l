@@ -22,6 +22,7 @@ function Login() {
         password
       });
       console.log(resp.data)
+      alert("Successfully logged in")
     }
     catch(error) {
       alert("Invalid Authorization");
@@ -55,6 +56,7 @@ function Login() {
           </Grid>
       </Grid>
       <Grid item>
+        <a href="/register">Register Here</a>
       </Grid>
     </Grid>
 

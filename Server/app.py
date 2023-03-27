@@ -48,6 +48,20 @@ def login_user():
         return jsonify({"error": "Username or password is incorrect"}), 409
     return jsonify({"user": user})
 
+@app.route('/projects')
+def getProjects():
+    return db.queryProjects()    
+
+@app.route('/hardware')
+def getHardwareSets():
+    capacity1 = db.queryHWSet1Capacity()
+    capacity2 = db.queryHWSet2Capacity()
+    availability1 = db.queryHWSet1Availability()
+    availability2 = db.queryHWSet2Availability()
+    HWSet1 = {"Capacity": capacity1, "Availability": availability1}
+    HWSet2 = {"Capacity":capacity2, "Availability": availability2}
+
+    return jsonify({"HWSet1": HWSet1, "HWSet2": HWSet2})
 
 if __name__ =="__main__":
     app.run(debug=True)

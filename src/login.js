@@ -8,9 +8,10 @@ import {Button} from '@mui/material';
 import "./login.css"
 import { Link, Outlet } from "react-router-dom";
 import httpClient from 'react-http-client';
+import {useNavigate} from "react-router";
 
 function Login() {
-
+ 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -54,7 +55,7 @@ function Login() {
           </Grid>
       </Grid>
       <Grid item>
-        <a href="/register">Register Here</a>
+        <Button variant="outlined">Register Here</Button>
       </Grid>
     </Grid>
 

@@ -9,24 +9,25 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 #HW5
-@app.route('/check-in/<projectId>/<qty>', methods=['POST'])
-def checkIn_hardware(projectId, qty):
-    return({"qty": qty})
-
-@app.route('/check-out/<projectId>/<qty>', methods=["POST"])
-def checkOut_hardware(projectId, qty):
-    return({"qty": qty})
-
-@app.route('/join/<projectId>', methods=["POST"])
-def joinProject(projectId):
-    return({"projectId": projectId})
-
-@app.route('/leave/<projectId>', methods=["POST"])
-def leaveProject(projectId):
-    return({"projectId": projectId})
-#HW5
 
 
+@app.route('/join', methods=["POST"])
+def joinProject():
+    userid = request.json["userid"]
+    pid = request.json["pid"]
+    #check if user exists in project already
+    db.addUsertoProject(pid, userid)
+    return jsonify({"userid":userid, "pid": pid})
+    
+
+@app.route('/leave', methods=["POST"])
+def leaveProject():
+    userid = request.json["userid"]
+    pid = request.json["pid"]
+    #check if user exists in project already
+    db.removeUserfromProject(pid, userid)
+    return jsonify({"userid":userid, "pid": pid})
+    
 
 @app.route('/register', methods=['POST'])
 def register_user():
@@ -38,7 +39,6 @@ def register_user():
     else:
         db.registerNewUser(user, password)
         return jsonify({"user": user})
-
 
 @app.route('/login', methods=["POST"])
 def login_user():
@@ -52,8 +52,60 @@ def login_user():
 
 @app.route('/projects')
 def getProjects():
-    return db.queryProjects()    
+    return
 
+
+@app.route('/check-in', methods=['POST'])
+def checkIn_hardware():
+    checking= request.json["qty"]
+    hw = request.json["hw"]
+    
+    if hw == 1:
+        Availability = int(db.queryHWSet1Availability())
+        Capacity = int(db.queryHWSet1Capacity())
+    else:
+        Availability = int(db.queryHWSet2Availability())
+        Capacity = int(db.queryHWSet2Capacity())
+    
+    try:
+        qty = int(checking)
+        if qty < 0 or qty + Availability > Capacity:
+            raise ValueError
+        else:
+            if hw == 1:
+                db.updateHWSet1(qty + Availability)
+            else:
+                db.updateHWSet2(qty + Availability)
+        return jsonify({"Capacity" : Capacity, "Availability" : Availability})
+    except ValueError:
+        return jsonify({"error": "invalid input"}), 409
+
+
+@app.route('/check-out', methods=['POST'])
+def checkOut_hardware():
+    checking= request.json["qty"]
+    hw = request.json["hw"]
+    
+    if hw == 1:
+        Availability = int(db.queryHWSet1Availability())
+        Capacity = int(db.queryHWSet1Capacity())
+    else:
+        Availability = int(db.queryHWSet2Availability())
+        Capacity = int(db.queryHWSet2Capacity())
+    
+    try:
+        qty = int(checking)
+        if qty < 0 or Availability - qty < 0:
+            raise ValueError
+        else:
+            if hw == 1:
+                db.updateHWSet1(Availability - qty)
+            else:
+                db.updateHWSet2(Availability - qty)
+        return jsonify({"Capacity" : Capacity, "Availability" : Availability})
+    except ValueError:
+        return jsonify({"error": "invalid input"}), 409
+    
 @app.route('/hardware', methods=["GET"])
 def getHardwareSets():
     capacity1 = db.queryHWSet1Capacity()
@@ -64,6 +116,7 @@ def getHardwareSets():
     HWSet2 = {"Capacity":capacity2, "Availability": availability2}
 
     return jsonify({"HWSet1": HWSet1, "HWSet2": HWSet2})
+
 
 if __name__ =="__main__":
     app.run(debug=True)

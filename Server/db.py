@@ -47,7 +47,7 @@ def checkPassword(userid, password):
 def queryProjects():
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
     db = client['Projects']
-    projectList = db.list_collections
+    projectList = db.list_collection_names
     client.close()
     return projectList
     
@@ -84,23 +84,62 @@ def queryHWSet2Capacity():
     return document["Capacity"]
 
 
-def updateHWSet1(availability):
+def updateHWSet1(Availability):
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
     db = client['HardwareSet']
     collection = db['HWSet1']
+    newVal = {"$set" : {"Availability" : Availability}}
     document = collection.find_one()
-    document['availability'] = availability
+    collection.update_one(document, newVal)
     client.close()
     return 
 
-def updateHWSet2(availability):
+def updateHWSet2(Availability):
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
     db = client['HardwareSet']
     collection = db['HWSet2']
+    newVal = {"$set" : {"Availability" : Availability}}
     document = collection.find_one()
-    document['availability'] = availability
+    collection.update_one(document, newVal)
     client.close()
     return 
     
+def addUsertoProject(projectId, userid):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    query = {"ID": projectId}
+    newVal = {"$push" : {"Users" : userid}}
+    collection.update_one(query, newVal)
+    return
+
+def removeUserfromProject(projectId, userid):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    query = {"ID": projectId}
+    newVal = {"$pull" : {"Users" : userid}}
+    collection.update_one(query, newVal)
+    return
+    
+def addNewProject(projectName, description, projectId):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    project = {"Description": description, "ID": projectId, "Name": projectName, "Users":{[]}}
+    collection.insert_one(project)
+    return
+
+def userInProject(projectId, userid):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    query = {"ID": projectId}
+    document = collection.find_one(query)
+
+    if document[userid] == None:
+        return False
+    return True
+
 
     

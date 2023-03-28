@@ -6,6 +6,7 @@ import httpClient from 'react-http-client';
 
 function JoinButton(props) {
     const pid = props.projectId
+    const userid = props.userid
     
     const joinStyle = {
         maxWidth:"60px",
@@ -29,29 +30,35 @@ function JoinButton(props) {
     
     
     const toggle = () => {
-        setStyleState(!styleState)
+        setStyleState(!styleState);
         if(styleState) {
-            joinProject()
+            joinProject();
         }
         else {
-            leaveProject()
+            leaveProject();
         }
-        setButtonText((state) => (state ==="Join" ? "Leave" : "Join"))
+        setButtonText((state) => (state ==="Join" ? "Leave" : "Join"));
         
     };
 
     const leaveProject = async () => {
-        console.log(pid)
-        const loc = `//localhost:5000/leave/${pid}`
-        const resp = await httpClient.post(loc)
-        console.log(resp)
-        alert("left project " + resp.projectId)
+        console.log(pid);
+        const loc = `//localhost:5000/leave`;
+        const resp = await httpClient.post(loc, {
+            userid:userid,
+            pid:pid
+        });
+        console.log(resp);
+        alert("left project " + resp.pid);
     };
     const joinProject = async () => {
-        const loc = `//localhost:5000/join/${pid}`
-        const resp = await httpClient.post(loc)
-        console.log(resp)
-        alert("joined project " + resp.projectId)
+        const loc = `//localhost:5000/join`;
+        const resp = await httpClient.post(loc, {
+            userid:userid,
+            pid:pid
+        });
+        console.log(resp);
+        alert("joined project " + resp.pid);
     };
 
 

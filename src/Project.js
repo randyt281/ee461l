@@ -19,9 +19,10 @@ import httpClient from 'react-http-client';
 
 function Project (props){
     const pName = props.projectName;
-    const pid = "as1234"; //testing for now
+    const pid = "p101"; //testing for now
     const listUsers = props.listOfUsers;
-
+    const userid = "testid" //testing for now 
+    //TODO: How to pass userid to project after logging in?
     const buttonStyle = {
         borderColor:"black",
         "&:hover":{borderColor:"gray"},
@@ -35,8 +36,8 @@ function Project (props){
     const [HWSet1Data, setHWSet1Data] = useState({"Capacity":"0", "Availability":"0"});
     const [HWSet2Data, setHWSet2Data] = useState({"Capacity":"0", "Availability":"0"});
 
-    const [check1, setCheck1] = useState(0)
-    const [check2, setCheck2] = useState(0)
+    const [check1, setCheck1] = useState(0);
+    const [check2, setCheck2] = useState(0);
 
     const [joinState, setJoinState] = useState(true);
 
@@ -63,54 +64,55 @@ function Project (props){
 
     const checkIn = async (hw) => {
         try {
-            try {
-                
-                if(hw ===1) {
-                    const loc = `//localhost:5000/check-in/${pid}/${check1}`
-                    const resp = await httpClient.post(loc);
-                    console.log(resp)
-                    alert(resp.qty + " hardware was checked in")
-                }
-                else if (hw === 2) {
-                    const loc = `//localhost:5000/check-in/${pid}/${check2}`
-                    const resp = await httpClient.post(loc);
-                    console.log(resp)
-                    alert(resp.qty + " hardware was checked in")
-                }
-                  
-              }
-              catch(error) {
-              }
-        }
-        catch(error) {
-          alert("Invalid Quantity");
-        }
+            if(hw === 1) {
+                const resp = await httpClient.post("//localhost:5000/check-in", {
+                    qty:check1,
+                    hw     
+                    })
+                window.location.reload(false);
+
+            }
+            else if (hw === 2) {
+                const resp = await httpClient.post("//localhost:5000/check-in", {
+                    qty:check2,
+                    hw   
+                    })
+                window.location.reload(false);
+
+               
+            }
+            }
+            catch(error) {
+            alert("Invalid Quantity");
+            }
+    }
+   
        
-      };
+    
       const checkOut = async (hw) => {
+      
         try {
-            try {
-                
-                if(hw ===1) {
-                    const loc = `//localhost:5000/check-in/${pid}/${check1}`
-                    const resp = await httpClient.post(loc);
-                    console.log(resp)
-                    alert(resp.qty + " hardware was checked out")
-                }
-                else if (hw === 2) {
-                    const loc = `//localhost:5000/check-in/${pid}/${check2}`
-                    const resp = await httpClient.post(loc);
-                    console.log(resp)
-                    alert(resp.qty + " hardware was checked out")
-                }
-                  
-              }
-              catch(error) {
-              }
-        }
-        catch(error) {
-          alert("Invalid Quantity");
-        }
+            if(hw === 1) {
+                const resp = await httpClient.post("//localhost:5000/check-out", {
+                    qty:check1,
+                    hw     
+                    })
+                window.location.reload(false);
+
+            }
+            else if (hw === 2) {
+                const resp = await httpClient.post("//localhost:5000/check-out", {
+                    qty:check2,
+                    hw   
+                    })
+                    window.location.reload(false);
+
+            }
+            }
+            catch(error) {
+            alert("Invalid Quantity");
+            }
+
        
       };
 
@@ -146,7 +148,7 @@ function Project (props){
                     <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkOut(2)}>Check Out</Button>
                 </Grid>
                 <Grid item xs="auto">
-                    <JoinButton projectId={pid}/>
+                    <JoinButton projectId={pid} userid={userid}/>
                 </Grid>
 
             </Grid>

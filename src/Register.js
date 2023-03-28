@@ -6,11 +6,10 @@ import {TextField} from '@mui/material';
 import {Typography} from '@mui/material';
 import {Button} from '@mui/material';
 import "./login.css"
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate} from "react-router-dom";
 import httpClient from 'react-http-client';
 
 function Register() {
-
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 

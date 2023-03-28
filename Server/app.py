@@ -8,22 +8,24 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-
-@app.route('/check-in/<projectId>/<qty>')
+#HW5
+@app.route('/check-in/<projectId>/<qty>', methods=['POST'])
 def checkIn_hardware(projectId, qty):
-    return(qty + " hardware checked in")
+    return({"qty": qty})
 
-@app.route('/check-out/<projectId>/<qty>')
+@app.route('/check-out/<projectId>/<qty>', methods=["POST"])
 def checkOut_hardware(projectId, qty):
-    return(qty + " hardware checked out")
+    return({"qty": qty})
 
-@app.route('/join/<projectId>')
+@app.route('/join/<projectId>', methods=["POST"])
 def joinProject(projectId):
-    return("joined project " + projectId)
+    return({"projectId": projectId})
 
-@app.route('/leave/<projectId>')
+@app.route('/leave/<projectId>', methods=["POST"])
 def leaveProject(projectId):
-    return("left project " + projectId)
+    return({"projectId": projectId})
+#HW5
+
 
 
 @app.route('/register', methods=['POST'])
@@ -52,7 +54,7 @@ def login_user():
 def getProjects():
     return db.queryProjects()    
 
-@app.route('/hardware')
+@app.route('/hardware', methods=["GET"])
 def getHardwareSets():
     capacity1 = db.queryHWSet1Capacity()
     capacity2 = db.queryHWSet2Capacity()

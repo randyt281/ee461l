@@ -28,8 +28,6 @@ function Login() {
       alert("Invalid Authorization");
     }
    
-   
-    
   };
 
   return (

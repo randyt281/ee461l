@@ -5,8 +5,9 @@ import './Project.css'
 import { useState, useEffect } from 'react';
 function Projects() {
     
+    /*
     const [projectData, setProjectData] = useState(null);
-
+    
     useEffect(() => {
         // Using fetch to fetch the api from 
         // flask server it will be redirected to proxy
@@ -17,7 +18,7 @@ function Projects() {
             })
         );
     }, []);
-   
+   */
 
 
     return (

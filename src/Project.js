@@ -15,12 +15,12 @@ import {Button} from "@mui/material";
 import JoinButton from "./JoinButton";
 import { useState } from "react";
 import { useEffect } from "react";
+import httpClient from 'react-http-client';
 
 function Project (props){
     const pName = props.projectName;
+    const pid = "as1234"; //testing for now
     const listUsers = props.listOfUsers;
-    const hw1 = props.hwSet1; 
-    const hw2 = props.hwSet2;
 
     const buttonStyle = {
         borderColor:"black",
@@ -35,11 +35,17 @@ function Project (props){
     const [HWSet1Data, setHWSet1Data] = useState({"Capacity":"0", "Availability":"0"});
     const [HWSet2Data, setHWSet2Data] = useState({"Capacity":"0", "Availability":"0"});
 
+    const [check1, setCheck1] = useState(0)
+    const [check2, setCheck2] = useState(0)
+
+    const [joinState, setJoinState] = useState(true);
+
+    
+
 
     useEffect(() => {
-        // Using fetch to fetch the api from 
-        // flask server it will be redirected to proxy
-        fetch("/hardware").then((res) =>
+        //fetch initial data on refresh
+        fetch("//localhost:5000/hardware").then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
                 setHWSet1Data({
@@ -54,6 +60,59 @@ function Project (props){
             })
         );
     }, []);
+
+    const checkIn = async (hw) => {
+        try {
+            try {
+                
+                if(hw ===1) {
+                    const loc = `//localhost:5000/check-in/${pid}/${check1}`
+                    const resp = await httpClient.post(loc);
+                    console.log(resp)
+                    alert(resp.qty + " hardware was checked in")
+                }
+                else if (hw === 2) {
+                    const loc = `//localhost:5000/check-in/${pid}/${check2}`
+                    const resp = await httpClient.post(loc);
+                    console.log(resp)
+                    alert(resp.qty + " hardware was checked in")
+                }
+                  
+              }
+              catch(error) {
+              }
+        }
+        catch(error) {
+          alert("Invalid Quantity");
+        }
+       
+      };
+      const checkOut = async (hw) => {
+        try {
+            try {
+                
+                if(hw ===1) {
+                    const loc = `//localhost:5000/check-in/${pid}/${check1}`
+                    const resp = await httpClient.post(loc);
+                    console.log(resp)
+                    alert(resp.qty + " hardware was checked out")
+                }
+                else if (hw === 2) {
+                    const loc = `//localhost:5000/check-in/${pid}/${check2}`
+                    const resp = await httpClient.post(loc);
+                    console.log(resp)
+                    alert(resp.qty + " hardware was checked out")
+                }
+                  
+              }
+              catch(error) {
+              }
+        }
+        catch(error) {
+          alert("Invalid Quantity");
+        }
+       
+      };
 
 
     return (
@@ -77,17 +136,17 @@ function Project (props){
                     <HWSet hwSet1={HWSet1Data} hwSet2={HWSet2Data}/>
                 </Grid>
                 <Grid item xs="auto">
-                    <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}}/> <br/>
-                    <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}}/>
+                    <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}} onChange={(e) => setCheck1(e.target.value)}/> <br/>
+                    <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}} onChange={(e) => setCheck2(e.target.value)}/>
                 </Grid>
                 <Grid item xs="auto">
-                    <Button variant='outlined' disableElevation  sx={buttonStyle}>Check In</Button>
-                    <Button variant='outlined' disableElevation  sx={buttonStyle}>Check Out</Button> <br/>
-                    <Button variant='outlined' disableElevation  sx={buttonStyle}>Check In</Button>
-                    <Button variant='outlined' disableElevation  sx={buttonStyle}>Check Out</Button>
+                    <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkIn(1)}>Check In</Button>
+                    <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkOut(1)}>Check Out</Button> <br/>
+                    <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkIn(2)}>Check In</Button>
+                    <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkOut(2)}>Check Out</Button>
                 </Grid>
                 <Grid item xs="auto">
-                    <JoinButton/>
+                    <JoinButton projectId={pid}/>
                 </Grid>
 
             </Grid>

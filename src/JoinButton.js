@@ -1,7 +1,11 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useState } from "react";
-function JoinButton() {
+import httpClient from 'react-http-client';
+
+
+function JoinButton(props) {
+    const pid = props.projectId
     
     const joinStyle = {
         maxWidth:"60px",
@@ -21,13 +25,37 @@ function JoinButton() {
     }
   
     const [buttonText, setButtonText] = useState("Join");
-    const [styleState, setStyleState] = useState(true);
+    const [styleState, setStyleState] = useState(true); //true = join, false = leave
+    
     
     const toggle = () => {
-        setButtonText((state) => (state ==="Join" ? "Leave" : "Join"))
         setStyleState(!styleState)
+        if(styleState) {
+            joinProject()
+        }
+        else {
+            leaveProject()
+        }
+        setButtonText((state) => (state ==="Join" ? "Leave" : "Join"))
+        
     };
 
+    const leaveProject = async () => {
+        console.log(pid)
+        const loc = `//localhost:5000/leave/${pid}`
+        const resp = await httpClient.post(loc)
+        console.log(resp)
+        alert("left project " + resp.projectId)
+    };
+    const joinProject = async () => {
+        const loc = `//localhost:5000/join/${pid}`
+        const resp = await httpClient.post(loc)
+        console.log(resp)
+        alert("joined project " + resp.projectId)
+    };
+
+
+   
     
 
     

@@ -11,7 +11,8 @@ import httpClient from 'react-http-client';
 import {useNavigate} from "react-router";
 
 function Login() {
- 
+        let navigate = useNavigate();
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,7 +24,9 @@ function Login() {
         password
       });
       console.log(resp.data)
-      alert("Successfully logged in")
+        alert("Successfully logged in")
+                navigate('/projects');
+
     }
     catch(error) {
       alert("Invalid Authorization");

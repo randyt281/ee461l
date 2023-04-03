@@ -22,6 +22,7 @@ function Project (props){
     const pName = props.projectName;
    // const pid =  props.projectId;
    const pid = "test123"
+   const listofUsers = props.listOfUsers;
 
     const userid = "testid" //testing for now 
     //TODO: How to pass userid to project after logging in?
@@ -66,7 +67,7 @@ function Project (props){
         fetch(loc).then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
-        
+                this.props.listOfUsers = data['Users']
             })
         );
 
@@ -147,7 +148,7 @@ function Project (props){
                     <ProjectName projectName= {pName}/>
                 </Grid>
                 <Grid item xs="auto">
-                    <ListOfUsers listOfUsers={listUsers}/>    
+                    <ListOfUsers listOfUsers={this.props.listOfUsers}/>    
                 </Grid>
                 <Grid item xs="auto">
                     <HWSet hwSet1={HWSet1Data} hwSet2={HWSet2Data}/>

@@ -67,7 +67,7 @@ function Project (props){
         fetch(loc).then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
-                this.props.listOfUsers = data['Users']
+                setlistUsers(data['Users']);
             })
         );
 
@@ -148,7 +148,7 @@ function Project (props){
                     <ProjectName projectName= {pName}/>
                 </Grid>
                 <Grid item xs="auto">
-                    <ListOfUsers listOfUsers={this.props.listOfUsers}/>    
+                    <ListOfUsers listOfUsers={listUsers}/>    
                 </Grid>
                 <Grid item xs="auto">
                     <HWSet hwSet1={HWSet1Data} hwSet2={HWSet2Data}/>

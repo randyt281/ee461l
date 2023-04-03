@@ -27,7 +27,7 @@ function Login() {
       });
       console.log(resp.data)
         alert("Created new project")
-                navigate('/projects');
+                navigate('/');
 
     }
     catch(error) {
@@ -37,7 +37,7 @@ function Login() {
   };
 
   const cancel = async() => {
-    navigate('/projects')
+    navigate('/')
   }
 
   return (

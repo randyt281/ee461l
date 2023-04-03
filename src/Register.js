@@ -10,6 +10,7 @@ import { Link, Outlet, useNavigate} from "react-router-dom";
 import httpClient from 'react-http-client';
 
 function Register() {
+  const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,6 +22,7 @@ function Register() {
         password
       });
       console.log(resp.data);
+      navigate('/')
     }
     catch(error) {
       alert("User already exists")

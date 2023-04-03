@@ -6,36 +6,24 @@ import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import {useNavigate} from "react-router";
 import httpClient from 'react-http-client';
-function Projects() {
+function Projects(props) {
+    
+    let userid = props.username;
+    
     
     useEffect(() => {
 
         fetch("/projects").then((res) =>
             res.json().then((data) => {
-                // Setting a data from api
-                getProjects(data["projects"], data["IDs"])
             })
         );
     }, []);
 
-    const getProjects = (projects, IDs) => {
-        let projectList = []
-        for (let i = 0; i < projects.length; i++) {
-            projectList.push(<Project projectName={projects[i]} projectId={IDs[i]}/>)
-        }
-
-    };
-   
-    
 
     let navigate = useNavigate();
     const createProject = async() => {
         navigate('/create-project')
       }
-
-
-    
-
 
     return (
         <Container>

@@ -126,9 +126,23 @@ def addNewProject(projectName, description, projectId):
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
     db = client['Projects']
     collection = db['Projects']
-    project = {"Description": description, "ID": projectId, "Name": projectName, "Users":{[]}}
+    project = {"Description": description, "ID": projectId, "Name": projectName, "Users":[]}
     collection.insert_one(project)
+    client.close()
     return
+
+def projectExists(projectId):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    query = {"ID": projectId}
+    document = collection.find_one(query)
+    if document == None:
+        client.close()
+        return True
+    client.close()
+    return False
+
 
 def userInProject(projectId, userid):
     client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
@@ -138,8 +152,31 @@ def userInProject(projectId, userid):
     document = collection.find_one(query)
 
     if document[userid] == None:
+        client.close()
         return False
+    client.close()
     return True
+
+def getUsers(projectId):
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    query = {"ID" : projectId}
+    document = collection.find_one(query)
+    ret = document["Users"]
+    client.close()
+    return ret
+
+def getProjectNames():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    res = []
+    documents = collection.find()
+    for i in documents:
+        res.append(i["Name"])
+    client.close()
+    return res
 
 
     

@@ -50,9 +50,6 @@ def login_user():
         return jsonify({"error": "Username or password is incorrect"}), 409
     return jsonify({"user": user})
 
-@app.route('/projects')
-def getProjects():
-    return
 
 
 @app.route('/check-in', methods=['POST'])
@@ -116,6 +113,29 @@ def getHardwareSets():
     HWSet2 = {"Capacity":capacity2, "Availability": availability2}
 
     return jsonify({"HWSet1": HWSet1, "HWSet2": HWSet2})
+
+
+@app.route('/create-project', methods=["POST"])
+def createProject():
+    projectId = request.json["projectId"]
+    Name = request.json["Name"]
+    Description = request.json["Description"]
+    if db.projectExists(projectId):
+        return jsonify({"error": "project already exists"}), 409
+    db.addNewProject(Name, Description, projectId)
+    return jsonify({"projectId": projectId})
+
+
+@app.route('/get-list', methods=["GET"])
+def getListOfUsers():
+    projectId = request.json["projectId"]
+    listUsers = db.getUsers(projectId)
+    return jsonify({"Users": listUsers})
+
+@app.route('/projects', methods=["GET"])
+def getProjects():
+    listNames = db.getProjectNames
+    return jsonify({"projects": listNames})
 
 
 if __name__ =="__main__":

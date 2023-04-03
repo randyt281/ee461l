@@ -7,6 +7,7 @@ import Project from './Project';
 import Login from './login';
 import Register from './Register';
 import App from './App';
+import CreateProject from "./CreateProject"
 import {
   BrowserRouter,
   createBrowserRouter,

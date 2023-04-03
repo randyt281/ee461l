@@ -62,13 +62,24 @@ function Project (props){
 
             })
         );
+        const loc = `//localhost:5000/get-list?projectId=${pid}`
 
-        const resp = httpClient.post("//localhost:5000/get-list", {
-            projectId:pid
-        })
-        let users = resp.Users;
-        console.log(JSON.parse(resp))
-   
+        fetch(loc).then((res) =>
+            res.json().then((data) => {
+                // Setting a data from api
+                setHWSet1Data({
+                    Capacity:data.HWSet1.Capacity,
+                    Availability:data.HWSet1.Availability
+                })
+                setHWSet2Data({
+                    Capacity:data.HWSet2.Capacity,
+                    Availability:data.HWSet2.Availability
+                })
+
+            })
+        );
+
+
         
     }, []);
 

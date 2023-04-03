@@ -8,8 +8,7 @@ import {useNavigate} from "react-router";
 
 import httpClient from 'react-http-client';
 function Projects(props) {
-    let uid = props.username;
-    
+    const uid = props.userid;
     
     const [projectList, setProjectList] = useState([])
 

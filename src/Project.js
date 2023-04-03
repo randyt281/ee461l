@@ -140,7 +140,7 @@ function Project (props){
 
         <Box className="project-container" justifyContent="center" alignItems="center" align-self="center" sx= {{
             align:"center",
-            maxWidth:"850px",
+            maxWidth:"1000px",
             maxHeight:"400px",
             border: "3px solid grey",
             borderRadius: "8px",

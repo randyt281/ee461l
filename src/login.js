@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import {TextField} from '@mui/material';
 import {Typography} from '@mui/material';
@@ -27,6 +27,7 @@ function Login() {
       });
         alert("Successfully logged in");
         setSuccess(success => true);
+        localStorage.setItem('success', true);
     }
     catch(error) {
       alert("Invalid Authorization");
@@ -37,6 +38,13 @@ function Login() {
   const registerUser = async () => {
     navigate('/register')
   }
+  
+  useEffect(() => {
+    const storedSuccess = localStorage.getItem('success');
+    if(storedSuccess === 'true'){
+      setSuccess(true);
+    }
+  })
 
   if(success){
     return (

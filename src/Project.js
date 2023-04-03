@@ -19,11 +19,11 @@ import httpClient from 'react-http-client';
 import httpHandler from "react-http-client";
 
 function Project (props){
-    const pName = props.projectName;
-    const pid =  props.projectId;
-    const listofUsers = props.listOfUsers;
+    const pName = "Project Test";
+    const pid =  "test123";
+    const userid = "randyt281";
+    
 
-    const userid = "testid" //testing for now 
     //TODO: How to pass userid to project after logging in?
     const buttonStyle = {
         borderColor:"black",

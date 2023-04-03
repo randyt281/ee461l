@@ -8,28 +8,39 @@ import {useNavigate} from "react-router";
 import httpClient from 'react-http-client';
 function Projects(props) {
     
-    let userid = props.username;
+    let uid = props.username;
     
-    
+    const projectList = []
+
     useEffect(() => {
 
-        fetch("/projects").then((res) =>
+        fetch("//localhost:5000/projects").then((res) =>
             res.json().then((data) => {
+                getProjects(data['projects'], data['IDs'])
             })
         );
     }, []);
 
+    const getProjects = (projects, IDs) => {
+
+       
+
+        for(let i = 0; i < projects.length; i++) {
+            projectList.push(
+                <Project projectName={projects[i]} projectId={IDs[i]} userid={uid}/>
+            )
+        }
+     
+    }
 
     let navigate = useNavigate();
     const createProject = async() => {
         navigate('/create-project')
       }
-
+    
     return (
         <Container>
-            <Project projectName="Project 1"  hwSet1={{availability:"49", capacity:"100"}} hwSet2={{availability:"79", capacity:"100"}}/> <br/>
-            <Project projectName="Project 2"  hwSet1={{availability:"23", capacity:"100"}} hwSet2={{availability:"56", capacity:"100"}}/> <br/>
-            <Project projectName="Project 3"  hwSet1={{availability:"42", capacity:"100"}} hwSet2={{availability:"22", capacity:"100"}}/> <br/>
+            <Project>{projectList}</Project>
             <Button variant="contained" onClick={() => createProject()}>Create New Project</Button>
         </Container>
         

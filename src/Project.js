@@ -43,8 +43,8 @@ function Project (props){
 
     const [joinState, setJoinState] = useState(true);
 
-    let listUsers = ""
-
+    
+    const [listUsers, setlistUsers] = useState("");
 
     useEffect(() => {
         //fetch initial data on refresh
@@ -62,24 +62,16 @@ function Project (props){
 
             })
         );
-        const loc = `//localhost:5000/get-list?projectId=${pid}`
-
+        const loc = `//localhost:5000/get-list/${pid}`
         fetch(loc).then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
-                setHWSet1Data({
-                    Capacity:data.HWSet1.Capacity,
-                    Availability:data.HWSet1.Availability
-                })
-                setHWSet2Data({
-                    Capacity:data.HWSet2.Capacity,
-                    Availability:data.HWSet2.Availability
-                })
-
+        
             })
         );
 
-
+    
+      
         
     }, []);
 

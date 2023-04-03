@@ -126,9 +126,8 @@ def createProject():
     return jsonify({"projectId": projectId})
 
 
-@app.route('/get-list', methods=["GET"])
-def getListOfUsers():
-    projectId = request.json["projectId"]
+@app.route('/get-list/<projectId>', methods=["GET"])
+def getListOfUsers(projectId):
     listUsers = db.getUsers(projectId)
     return jsonify({"Users": listUsers})
 

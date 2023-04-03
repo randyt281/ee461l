@@ -20,9 +20,8 @@ import httpHandler from "react-http-client";
 
 function Project (props){
     const pName = props.projectName;
-   // const pid =  props.projectId;
-   const pid = "test123"
-   const listofUsers = props.listOfUsers;
+    const pid =  props.projectId;
+    const listofUsers = props.listOfUsers;
 
     const userid = "testid" //testing for now 
     //TODO: How to pass userid to project after logging in?

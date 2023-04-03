@@ -143,7 +143,12 @@ def getListOfUsers(projectId):
 def getProjects():
     listNames = db.getProjectNames()
     listID = db.getProjectIDs()
-    return jsonify({"projects": listNames, "IDs": listID})
+    res = []
+
+    for i in range(len(listNames)):
+        res.append({"Name": listNames[i], "ID": listID[i]})
+    
+    return jsonify({"data": res})
 
 
 if __name__ =="__main__":

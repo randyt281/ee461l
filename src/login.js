@@ -19,13 +19,12 @@ function Login() {
   const [success, setSuccess] = useState(false);
 
   const logInUser = async () => {
-    console.log(user, password);
+
     try {
       const resp = await httpClient.post("//localhost:5000/login", {
         user,
         password
       });
-      console.log(resp.data)
         alert("Successfully logged in");
         setSuccess(success => true);
     }
@@ -36,7 +35,6 @@ function Login() {
   };
 
   const registerUser = async () => {
-    console.log("Register user");
     navigate('/register')
   }
 

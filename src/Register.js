@@ -15,13 +15,13 @@ function Register() {
   const [password, setPassword] = useState("");
 
   const logInUser = async () => {
-    console.log(user, password);
+
     try {
         const resp = await httpClient.post("//localhost:5000/register", {
         user,
         password
       });
-      console.log(resp.data);
+    
       navigate('/')
     }
     catch(error) {

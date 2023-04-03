@@ -178,5 +178,15 @@ def getProjectNames():
     client.close()
     return res
 
+def getProjectIDs():
+    client = pymongo.MongoClient("mongodb+srv://randyt281:1234@cluster0.jddnco7.mongodb.net/?retryWrites=true&w=majority")
+    db = client['Projects']
+    collection = db['Projects']
+    res = []
+    documents = collection.find()
+    for i in documents:
+        res.append(i["ID"])
+    client.close()
+    return res
 
     

@@ -16,11 +16,13 @@ import JoinButton from "./JoinButton";
 import { useState } from "react";
 import { useEffect } from "react";
 import httpClient from 'react-http-client';
+import httpHandler from "react-http-client";
 
 function Project (props){
     const pName = props.projectName;
-    const pid = "p101"; //testing for now
-    const listUsers = props.listOfUsers;
+   // const pid =  props.projectId;
+   const pid = "test123"
+
     const userid = "testid" //testing for now 
     //TODO: How to pass userid to project after logging in?
     const buttonStyle = {
@@ -41,7 +43,7 @@ function Project (props){
 
     const [joinState, setJoinState] = useState(true);
 
-    
+    let listUsers = ""
 
 
     useEffect(() => {
@@ -60,7 +62,19 @@ function Project (props){
 
             })
         );
+
+        const resp = httpClient.post("//localhost:5000/get-list", {
+            projectId:pid
+        })
+        let users = resp.Users;
+        console.log(JSON.parse(resp))
+   
+        
     }, []);
+
+ 
+
+
 
     const checkIn = async (hw) => {
         try {
@@ -87,8 +101,6 @@ function Project (props){
             }
     }
    
-       
-    
       const checkOut = async (hw) => {
       
         try {

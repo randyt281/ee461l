@@ -134,8 +134,9 @@ def getListOfUsers():
 
 @app.route('/projects', methods=["GET"])
 def getProjects():
-    listNames = db.getProjectNames
-    return jsonify({"projects": listNames})
+    listNames = db.getProjectNames()
+    listID = db.getProjectIDs()
+    return jsonify({"projects": listNames, "IDs": listID})
 
 
 if __name__ =="__main__":

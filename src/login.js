@@ -23,10 +23,9 @@ function Login() {
         user,
         password
       });
-      console.log(resp.data)
+    
         alert("Successfully logged in")
                 navigate('/projects');
-
     }
     catch(error) {
       alert("Invalid Authorization");

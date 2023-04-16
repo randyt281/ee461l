@@ -1,38 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { useState } from 'react';
 import { Grid } from '@mui/material';
 import {TextField} from '@mui/material';
 import {Typography} from '@mui/material';
 import {Button} from '@mui/material';
-import "./login.css"
-import { Link, Outlet, useNavigate} from "react-router-dom";
-import httpClient from 'react-http-client';
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
-  const logInUser = async () => {
-
-    try {
-        const resp = await httpClient.post("//localhost:5000/register", {
-        user,
-        password
-      });
-    
-      navigate('/')
+  const registerUser = async () => {
+    const url = 'http://localhost:5000/register';
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user, password })
     }
-    catch(error) {
-      alert("User already exists")
+    const res = await fetch(url, options);
+    const data = await res.json();
+    if(data.user === undefined){
+        alert(data.error);
     }
-    
-    
+    else{
+        alert("Successfully registered user " + data.user);
+        navigate('/');
+    }
   }
   
-
-
   return (
     <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2} style={{minHeight:"100vh"}}>
       <Grid item>
@@ -53,7 +49,7 @@ function Register() {
               fullwidth style={{marginBottom: "1em"}}
               onChange={(e) => setPassword(e.target.value)}
               />
-            <Button variant="outlined" onClick={()=> logInUser()}>Register</Button>
+            <Button variant="outlined" onClick={()=> registerUser()}>Register</Button>
           </Grid>
       </Grid>
       <Grid item>

@@ -1,35 +1,16 @@
 import React from "react";
-import "./Projects";
-import "./ProjectName";
-import ProjectName from "./ProjectName";
-import ListOfUsers from "./ListOfUsers";
-import HWSet from "./HWSet";
-import { List } from "@mui/material";
-import { Hardware } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import './Project.css'
+import ListOfUsers from "./ListOfUsers";
+import ProjectName from "./ProjectName";
+import HWSet from "./HWSet";
 import Grid from '@mui/material/Grid'; // Grid version 1
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import {Button} from "@mui/material";
 import JoinButton from "./JoinButton";
-import { useState } from "react";
-import { useEffect } from "react";
-import httpClient from 'react-http-client';
-import httpHandler from "react-http-client";
+import {TextField} from '@mui/material'
+import { useState } from 'react';
+import { Button } from '@mui/material';
 
 function Project (props){
-    
-    const pName = props.projectName;
-    const pid =  props.projectId;
-    const userid = props.userid;
-
-    console.log(userid)
-
-    
-    
-
-    //TODO: How to pass userid to project after logging in?
     const buttonStyle = {
         borderColor:"black",
         "&:hover":{borderColor:"gray"},
@@ -40,100 +21,87 @@ function Project (props){
         
     };
 
-    const [HWSet1Data, setHWSet1Data] = useState({"Capacity":"0", "Availability":"0"});
-    const [HWSet2Data, setHWSet2Data] = useState({"Capacity":"0", "Availability":"0"});
-
     const [check1, setCheck1] = useState(0);
     const [check2, setCheck2] = useState(0);
+    const projectId = props.project_id;
 
-    const [joinState, setJoinState] = useState(true);
-
-    
-    const [listUsers, setlistUsers] = useState("");
-
-    useEffect(() => {
-        //fetch initial data on refresh
-        fetch("//localhost:5000/hardware").then((res) =>
-            res.json().then((data) => {
-                // Setting a data from api
-                setHWSet1Data({
-                    Capacity:data.HWSet1.Capacity,
-                    Availability:data.HWSet1.Availability
-                })
-                setHWSet2Data({
-                    Capacity:data.HWSet2.Capacity,
-                    Availability:data.HWSet2.Availability
-                })
-
-            })
-        );
-        const loc = `//localhost:5000/get-list/${pid}`
-        fetch(loc).then((res) =>
-            res.json().then((data) => {
-                // Setting a data from api
-                setlistUsers(data['Users']);
-            })
-        );
-
-    
-        
-    }, []);
-
- 
-
-
+    function handleChange(){
+        props.onChange(1)
+    }
 
     const checkIn = async (hw) => {
-        try {
-            if(hw === 1) {
-                const resp = await httpClient.post("//localhost:5000/check-in", {
-                    qty:check1,
-                    hw     
-                    })
-                window.location.reload(false);
-
+        if(hw === 1){
+            const url = 'http://localhost:5000/checkin';
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId:projectId, hw1:check1, hw2:0 })
             }
-            else if (hw === 2) {
-                const resp = await httpClient.post("//localhost:5000/check-in", {
-                    qty:check2,
-                    hw   
-                    })
-                window.location.reload(false);
-
-               
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if(data.hw1_amount === undefined){
+                alert(data.error);
             }
+            else{
+                alert("Successfully checked in " + data.hw1_amount + " to HWSet1 and " + data.hw2_amount + " to HWSet2");
+                props.onChange(1);
             }
-            catch(error) {
-            alert("Invalid Quantity");
+        }
+        else if(hw === 2){
+            const url = 'http://localhost:5000/checkin';
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId:projectId, hw1:0, hw2:check2 })
             }
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if(data.hw2_amount === undefined){
+                alert(data.error);
+            }
+            else{
+                alert("Successfully checked in " + data.hw1_amount + " to HWSet1 and " + data.hw2_amount + " to HWSet2");
+                props.onChange(1);
+            }
+        }
     }
-   
-      const checkOut = async (hw) => {
-      
-        try {
-            if(hw === 1) {
-                const resp = await httpClient.post("//localhost:5000/check-out", {
-                    qty:check1,
-                    hw     
-                    })
-                window.location.reload(false);
 
+    const checkOut = async (hw) => {
+        if(hw === 1){
+            const url = 'http://localhost:5000/checkout';
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId:projectId, hw1:check1, hw2:0 })
             }
-            else if (hw === 2) {
-                const resp = await httpClient.post("//localhost:5000/check-out", {
-                    qty:check2,
-                    hw   
-                    })
-                    window.location.reload(false);
-
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if(data.hw1_amount === undefined){
+                alert(data.error);
             }
+            else{
+                alert("Successfully checked out " + data.hw1_amount + " from HWSet1 and " + data.hw2_amount + " from HWSet2");
+                props.onChange(1);
             }
-            catch(error) {
-            alert("Invalid Quantity");
+        }
+        else if(hw === 2){
+            const url = 'http://localhost:5000/checkout';
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId:projectId, hw1:0, hw2:check2 })
             }
-
-       
-      };
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if(data.hw2_amount === undefined){
+                alert(data.error);
+            }
+            else{
+                alert("Successfully checked out " + data.hw1_amount + " from HWSet1 and " + data.hw2_amount + " from HWSet2");
+                props.onChange(1);
+            }
+        }
+    }
 
 
     return (
@@ -148,13 +116,13 @@ function Project (props){
         }}>
             <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item xs="auto">
-                    <ProjectName projectName= {pName}/>
+                    <ProjectName projectName= {props.project_name}/>
                 </Grid>
                 <Grid item xs="auto">
-                    <ListOfUsers listOfUsers={listUsers}/>    
+                    <ListOfUsers listOfUsers={props.list_of_users}/>    
                 </Grid>
                 <Grid item xs="auto">
-                    <HWSet hwSet1={HWSet1Data} hwSet2={HWSet2Data}/>
+                    <HWSet hwSet1Used={props.hwset1_used} hwSet2Used={props.hwset2_used} hwSet1Availability={props.hwset1_availability} hwSet2Availability={props.hwset2_availability}/>
                 </Grid>
                 <Grid item xs="auto">
                     <TextField size="small" label="Enter qty" margin="dense" style={{width:"90px"}} onChange={(e) => setCheck1(e.target.value)}/> <br/>
@@ -167,19 +135,15 @@ function Project (props){
                     <Button variant='outlined' disableElevation  sx={buttonStyle} onClick={()=> checkOut(2)}>Check Out</Button>
                 </Grid>
                 <Grid item xs="auto">
-                    <JoinButton projectId={pid} userid={userid}/>
+                    <JoinButton projectId={props.project_id} userid={props.user_id} onChange={handleChange}/>
                 </Grid>
 
             </Grid>
      
         </Box>
-        
-    
-      
-
-      
      
     );
+
     
 }
 export default Project;

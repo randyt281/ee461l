@@ -4,7 +4,7 @@ import './ListOfUsers.css'
 function ListOfUsers (props) {
     const list = props.listOfUsers;
     return ( 
-        <span className="list-users">{list}</span>
+        <span className="list-users">{list && list.map((user) => <div>{user}</div>)}</span>
     );
         
     

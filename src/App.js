@@ -1,22 +1,23 @@
-import React from 'react';
-import Login from './login';
-import Register from './Register';
-import Projects from './Projects';
+import './App.css';
 import CreateProject from './CreateProject';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {Switch} from "react-router-dom";
-
+import Login from './Login';
+import Register from './Register';
+import HomePage from './HomePage';
+import JoinProject from './JoinProject';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
-    return (
-
-        <Routes>
-            <Route path="/" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/projects" element={<Projects/>}/>
-            <Route path="/create-project" element={<CreateProject/>}/>
-        </Routes>
-    )
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/createproject" element={<CreateProject/>}/>
+        <Route path="/home" element={<HomePage/>}/>
+        <Route path="/joinproject" element={<JoinProject/>}/>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

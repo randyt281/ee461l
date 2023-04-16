@@ -1,21 +1,11 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { useState } from "react";
-import httpClient from 'react-http-client';
 
 
 function JoinButton(props) {
-    const pid = props.projectId
-    const userid = props.userid
+    const projectId = props.projectId
+    const userId = props.userid
     
-    const joinStyle = {
-        maxWidth:"60px",
-        maxHeight:"40px",
-        color:"white",
-        backgroundColor:"green",
-        size:"large",
-        borderColor:"green"
-    }
     const leaveStyle = {
         maxWidth:"60px",
         maxHeight:"40px",
@@ -24,51 +14,23 @@ function JoinButton(props) {
         size:"large",
         borderColor:"red"
     }
-  
-    const [buttonText, setButtonText] = useState("Join");
-    const [styleState, setStyleState] = useState(true); //true = join, false = leave
-    
-    
-    const toggle = () => {
-        setStyleState(!styleState);
-        if(styleState) {
-            joinProject();
-        }
-        else {
-            leaveProject();
-        }
-        setButtonText((state) => (state ==="Join" ? "Leave" : "Join"));
-        
-    };
 
     const leaveProject = async () => {
-        console.log(pid);
-        const loc = `//localhost:5000/leave`;
-        const resp = await httpClient.post(loc, {
-            userid:userid,
-            pid:pid
-        });
-        console.log(resp);
-        alert("left project " + resp.pid);
-    };
-    const joinProject = async () => {
-        const loc = `//localhost:5000/join`;
-        const resp = await httpClient.post(loc, {
-            userid:userid,
-            pid:pid
-        });
-        console.log(resp);
-        alert("joined project " + resp.pid);
-    };
+        const url = 'http://localhost:5000/leave';
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ projectId:projectId, userId:userId })
+        }
+        const res = await fetch(url, options);
+        const data = await res.json();
+        alert("Successfully removed " + data.user_id + " from project " + data.project_id);
+        props.onChange(1);
+    }
 
 
-   
-    
-
-    
     return( 
-        <Button variant='outlined' disableElevation onClick={() => toggle()} style = {styleState ? joinStyle : leaveStyle}>{buttonText}</Button>
-
+        <Button variant='outlined' disableElevation onClick={() => leaveProject()} style = {leaveStyle}>Leave</Button>
     );
 }
 

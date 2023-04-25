@@ -1,0 +1,14 @@
+Step 1: Clone the git repository/download zip file
+Step 2: Create a new flask program
+Step 3: Copy the new files into the flask program directory and copy the files from the Server folder to base directory (override the preexisting app.py)
+Step 4: Run $ npm install for react app and install required packages:
+	a)react-http-client
+	b)react-router and react-router-dom
+	c)flask_cors
+	d)@mui/material
+	e)@mui/icons-material
+	f)@mui/system
+	g)pymongo
+Step 5: Run flask program (in terminal: flask run)
+Step 6: Run react program (in terminal: npm start)
+Step 7: Navigate to localhost:3000 and enjoy the website

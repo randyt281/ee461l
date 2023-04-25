@@ -3,7 +3,7 @@ import cipher
 
 def add_user(user_id, password):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     #If user already exists return
     db = client.UserDB
     user_collection = db.Users
@@ -27,7 +27,7 @@ def add_user(user_id, password):
 
 def add_project(name, project_id, description, user_id):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     #If project already exists return
     db = client.ProjectDB
     project_collection = db.Projects
@@ -68,7 +68,7 @@ def add_project(name, project_id, description, user_id):
 
 def add_user_to_project(user_id, project_id):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     user_db = client.UserDB
     project_db = client.ProjectDB
     user_collection = user_db.Users
@@ -97,7 +97,7 @@ def add_user_to_project(user_id, project_id):
 
 def check_in_hardware(project_id, hw1_amount, hw2_amount):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     project_db = client.ProjectDB
     project_collection = project_db.Projects
     hw_db = client.HardwareSetDB
@@ -122,7 +122,7 @@ def check_in_hardware(project_id, hw1_amount, hw2_amount):
 
 def check_out_hardware(project_id, hw1_amount, hw2_amount):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     project_db = client.ProjectDB
     project_collection = project_db.Projects
     hw_db = client.HardwareSetDB
@@ -151,7 +151,7 @@ def check_password(user_id, password):
     #Encrypt password to check
     encrypted = cipher.encrypt(password, 3, 1)
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     db = client.UserDB
     user_collection = db.Users
     user_document = user_collection.find_one({"username":user_id})
@@ -167,7 +167,7 @@ def check_password(user_id, password):
 
 def get_list_of_projects_for_user(user_id):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     user_db = client.UserDB
     user_collection = user_db.Users
     query = user_collection.find_one({"username":user_id})
@@ -192,7 +192,7 @@ def get_list_of_projects_for_user(user_id):
 
 def leave_project(user_id, project_id):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     #Remove project from user
     user_db = client.UserDB
     user_collection = user_db.Users
@@ -210,7 +210,7 @@ def leave_project(user_id, project_id):
 
 def join_project(user_id, project_id):
     #Client
-    client = MongoClient("mongodb+srv://rmahendra:MfG0vk84Q0MBAGXl@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://rmahendra:<password>@cluster0.wdl2udp.mongodb.net/?retryWrites=true&w=majority")
     project_db = client.ProjectDB
     project_collection = project_db.Projects
     query = project_collection.find_one({"project_id":project_id})
